@@ -62,5 +62,17 @@ void ACharacterController::OnOverlap(UPrimitiveComponent* OverlappedComponent, A
 	if (OtherActor->IsA(AFood::StaticClass()))
 	{
 		OtherActor->Destroy();
+
+		FVector NewSize;
+		float Scale = 1.1f;
+
+		NewSize.X = this->GetActorScale3D().X * Scale;
+		NewSize.Y = this->GetActorScale3D().Y * Scale;
+		NewSize.Z = this->GetActorScale3D().Z * Scale;
+
+		this->SetActorScale3D(NewSize);
+
+		float SpeedIncrement = 0.1;
+		this->Speed -= SpeedIncrement;
 	}
 }

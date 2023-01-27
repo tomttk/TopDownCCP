@@ -36,15 +36,11 @@ FVector ATopDownGameMode::GenerateRandomLocation()
 	FVector location;
 
 	float minimum = 100;
-
 	float maximum = 1000;
 
 	location.X = FMath::RandRange(minimum, maximum);
-
 	location.Y = FMath::RandRange(minimum, maximum);
-
 	location.Z = 0;
 
 	return location;
-
 }
