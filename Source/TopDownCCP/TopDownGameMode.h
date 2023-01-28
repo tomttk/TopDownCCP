@@ -21,9 +21,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Spawn")
 		TSubclassOf<class AFood> FoodBlueprint;
 
+	UPROPERTY(EditAnywhere, Category = "Spawn")
+		TSubclassOf<class AEnemy> EnemyBlueprint;
+
 	float SpawnTimer;
 
 	virtual void Tick(float DeltaTime) override;
 
 	FVector GenerateRandomLocation();
+
+	void OnGameOver();
 };

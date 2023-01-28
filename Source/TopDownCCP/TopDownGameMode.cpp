@@ -2,6 +2,8 @@
 
 #include "TopDownGameMode.h"
 #include "Food.h"
+#include "Enemy.h"
+#include <Kismet/GameplayStatics.h>
 
 ATopDownGameMode::ATopDownGameMode() : Super()
 {
@@ -16,7 +18,7 @@ void ATopDownGameMode::Tick(float DeltaTime)
 
 	if (SpawnTimer < 0.0f)
 	{
-		float NumberOfSecondsBetweenSpawn = 1.0f;
+		float NumberOfSecondsBetweenSpawn = 0.5f;
 
 		SpawnTimer = NumberOfSecondsBetweenSpawn;
 
@@ -25,8 +27,11 @@ void ATopDownGameMode::Tick(float DeltaTime)
 		if (world)
 		{
 			FVector foodLocation = GenerateRandomLocation();
-
 			AFood* food = world->SpawnActor<AFood>(FoodBlueprint, foodLocation, FRotator::ZeroRotator);
+
+			FVector enemyLocation = GenerateRandomLocation();
+			AEnemy* enemy = world->SpawnActor<AEnemy>(EnemyBlueprint, enemyLocation, FRotator::ZeroRotator);
+			enemy->Direction = (foodLocation - enemyLocation).GetSafeNormal();
 		}
 	}
 }
@@ -36,11 +41,16 @@ FVector ATopDownGameMode::GenerateRandomLocation()
 	FVector location;
 
 	float minimum = 100;
-	float maximum = 1000;
+	float maximum = 5000;
 
 	location.X = FMath::RandRange(minimum, maximum);
 	location.Y = FMath::RandRange(minimum, maximum);
 	location.Z = 0;
 
 	return location;
+}
+
+void ATopDownGameMode::OnGameOver()
+{
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }

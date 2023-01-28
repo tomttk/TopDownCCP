@@ -4,6 +4,8 @@
 #include "CharacterController.h"
 #include "Components/BoxComponent.h"
 #include "Food.h"
+#include "Enemy.h"
+#include "TopDownGameMode.h"
 
 // Sets default values
 ACharacterController::ACharacterController()
@@ -74,5 +76,9 @@ void ACharacterController::OnOverlap(UPrimitiveComponent* OverlappedComponent, A
 
 		float SpeedIncrement = 0.1;
 		this->Speed -= SpeedIncrement;
+	}
+	else if (OtherActor->IsA(AEnemy::StaticClass()))
+	{
+		((ATopDownGameMode*)GetWorld()->GetAuthGameMode())->OnGameOver();
 	}
 }
